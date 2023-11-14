@@ -42,9 +42,37 @@ yarn add medusa-plugin-ip-lookup-maxmind-geoip2
     /** @type {import('medusa-plugin-ip-lookup-maxmind-geoip2').PluginOptions} */
     options: {
       maxmind_db_path: "<PATH_TO_MAXMIND_DB_FILE>",
-      route_enabled: false,
+      route_enabled: true, // This route is under store so it's public
     },
   }
+```
+
+4. Check if the plugin is working by calling api call `GET /store/ip-lookup` with query param `ip` (e.g. `GET /store/ip-lookup)
+
+You need to have a valid IP address in order to get a valid response. Localhost will not work.
+
+### Example Response
+
+```json
+{
+    "error": false,
+    "message": "success",
+    "region": {
+        "id": "reg_01HEAZ934BD9JA8SE7033JHYHR",
+        "created_at": "2023-11-03T16:11:53.194Z",
+        "updated_at": "2023-11-03T16:11:53.194Z",
+        "deleted_at": null,
+        "name": "EU",
+        "currency_code": "eur",
+        "tax_rate": 0,
+        "tax_code": null,
+        "gift_cards_taxable": true,
+        "automatic_taxes": true,
+        "tax_provider_id": null,
+        "metadata": null
+    },
+    "country_code": "fr"
+}
 ```
 
 ---

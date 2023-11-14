@@ -1,6 +1,6 @@
 import { ConfigModule, MedusaRequest, MedusaResponse, RegionService } from "@medusajs/medusa";
-import IpLookupService from "../../services/ip-lookup";
-import { PluginOptions } from "../../..";
+import IpLookupService from "../../../services/ip-lookup";
+import { PluginOptions } from "../../../..";
 
 type MyConfigModule = ConfigModule & {
   projectConfig: {
@@ -51,12 +51,14 @@ export const GET = async (
   
     res.json({
       error: false,
+      message: 'success',
       region,
       country_code: data.country.isoCode.toLowerCase()
     })
   } catch (error) {
     res.status(500).json({
-      error: error.message,
+      error: true,
+      message: error.message,
       region: null,
       country_code: null
     })
