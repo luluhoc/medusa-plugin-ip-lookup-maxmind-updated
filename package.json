@@ -11,8 +11,8 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "@medusajs/medusa": "^1.17.4",
-    "typeorm": "^0.2.45"
+    "@medusajs/medusa": "^1.x.x",
+    "typeorm": "^0.3.x"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
