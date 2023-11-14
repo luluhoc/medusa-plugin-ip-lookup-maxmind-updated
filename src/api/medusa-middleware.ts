@@ -1,4 +1,5 @@
 import IpLookupService from "../services/ip-lookup";
+import { getIp } from "./store/ip-lookup/route";
 
 export default {
   preCartCreation: async function (req, res, next) {
@@ -13,7 +14,7 @@ export default {
 
       const regionService = req.scope.resolve("regionService")
 
-      const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+      const ip = getIp(req);
 
       const data = await ipLookupService.lookupIp(ip);
 

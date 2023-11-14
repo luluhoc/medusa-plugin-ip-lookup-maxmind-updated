@@ -8,13 +8,17 @@ type MyConfigModule = ConfigModule & {
   }
 }
 
-const getIp = (req) => {
+export const getIp = (req: MedusaRequest) => {
     let ips = (
         req.headers['cf-connecting-ip'] ||
         req.headers['x-real-ip'] ||
         req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress || ''
-    ).split(',');
+    )
+
+    if (typeof ips === 'string') {
+      ips = ips.split(',');
+    }
 
     return ips[0].trim();
 } 
