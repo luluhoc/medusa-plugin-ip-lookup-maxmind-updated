@@ -1,20 +1,18 @@
-import { BaseService } from "medusa-interfaces";
+
 import { Reader, ReaderModel } from "@maxmind/geoip2-node";
-
-type IpLookupServiceOptions = {
-  maxmind_db_path: string;
-};
-
-class IpLookupService extends BaseService {
-  options_: IpLookupServiceOptions;
+import { TransactionBaseService } from '@medusajs/medusa';
+import { PluginOptions } from "../..";
+class IpLookupService extends TransactionBaseService {
+  options_: PluginOptions;
   reader_: ReaderModel;
 
-  constructor({}, options) {
-    super();
+  constructor({}, options: PluginOptions) {
+    super(options);
+
     this.options_ = options;
   }
 
-  async lookupIp(ipAddress) {
+  async lookupIp(ipAddress: string) {
     if (!this.reader_) {
       this.reader_ = await Reader.open(this.options_["maxmind_db_path"]);
     }
