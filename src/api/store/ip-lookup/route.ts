@@ -8,6 +8,17 @@ type MyConfigModule = ConfigModule & {
   }
 }
 
+const getIp = (req) => {
+    let ips = (
+        req.headers['cf-connecting-ip'] ||
+        req.headers['x-real-ip'] ||
+        req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress || ''
+    ).split(',');
+
+    return ips[0].trim();
+} 
+
 type ipLookupMatch = {
   resolve: string
   options: PluginOptions
@@ -37,9 +48,8 @@ export const GET = async (
     if (!ipLookupConfig.options.route_enabled) {
       throw new Error('Route not enabled')
     }
-    const ip = req.headers["x-forwarded-for"] || 
-      req.socket.remoteAddress
-  
+
+    const ip = getIp(req)
     const data = await ipLookupService.lookupIp(ip)
   
     if (!data.country?.isoCode) {
@@ -58,7 +68,7 @@ export const GET = async (
   } catch (error) {
     res.status(500).json({
       error: true,
-      message: error.message,
+      message: process.env.NODE_ENV === 'production' || !process.env.DEV ? 'Internal server error' :  error.message,
       region: null,
       country_code: null
     })
